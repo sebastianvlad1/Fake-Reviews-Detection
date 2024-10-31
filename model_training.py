@@ -2,7 +2,7 @@ import torch
 from transformers import DistilBertForSequenceClassification, Trainer, TrainingArguments
 from utils import ReviewsDataset, tokenize_data
 from config import MODEL_PATH, TRAINING_ARGS, DEVICE
-
+from evaluation import compute_metrics
 # Load pre-trained model
 model = DistilBertForSequenceClassification.from_pretrained(MODEL_PATH, num_labels=2).to(DEVICE)
 
@@ -20,6 +20,7 @@ def train_model(train_dataset, val_dataset):
         args=training_args,
         train_dataset=train_dataset,
         eval_dataset=val_dataset,
+        compute_metrics = compute_metrics
     )
     trainer.train()
     return trainer

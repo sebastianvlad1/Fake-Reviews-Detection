@@ -1,5 +1,12 @@
 from sklearn.metrics import classification_report, confusion_matrix, roc_auc_score, f1_score
 
+def compute_metrics(p):
+    predictions, labels = p
+    preds = predictions.argmax(axis=1)
+    f1 = f1_score(labels, preds, average='weighted')
+    return {
+        'eval_f1': f1,
+    }
 
 def evaluate_model(trainer, val_dataset, y_val):
     predictions, labels, _ = trainer.predict(val_dataset)
